@@ -1,3 +1,5 @@
+from os import truncate
+
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyspark.sql import SparkSession
 
@@ -59,7 +61,7 @@ def select(spark):
     df.select(df.columns[:3]).show(3)
 
 
-def nested_structcolumns():
+def nested_structcolumns(spark):
     data = [
         (("James", None, "Smith"), "OH", "M"),
         (("Anna", "Rose", ""), "NY", "F"),
@@ -69,7 +71,6 @@ def nested_structcolumns():
         (("Mike", "Mary", "Williams"), "OH", "M")
     ]
 
-    from pyspark.sql.types import StructType, StructField, StringType
     schema = StructType([
         StructField('name', StructType([
             StructField('firstname', StringType(), True),
@@ -83,7 +84,6 @@ def nested_structcolumns():
     df2 = spark.createDataFrame(data=data, schema=schema)
     df2.printSchema()
     df2.show(truncate=False)  # shows all columns
+    df2.select("name").show(truncate=False)
 
-
-nested_structcolumns()
 

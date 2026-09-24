@@ -1,7 +1,7 @@
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyspark.sql import SparkSession
 
-from enforce_schema import nested_schema, enforce_schema, select
+from enforce_schema import nested_schema, enforce_schema, select, nested_structcolumns
 
 
 def num_rdd():
@@ -16,4 +16,5 @@ if __name__ == '__main__':
 
     # enforce_schema(spark)
     # nested_schema(spark)
-    select(spark)
+    # select(spark)
+    nested_structcolumns(spark)
