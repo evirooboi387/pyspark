@@ -1,6 +1,7 @@
 from os import truncate
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col,sum,avg,max,min,mean,count
+from pyspark.sql.functions import expr
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyspark.sql import SparkSession
 
@@ -59,6 +60,7 @@ def select(spark):
     df = spark.createDataFrame(data=data, schema=columns)
     df.show(truncate=False)
     df.select(df.firstname, df.lastname).show()
+    df.select(col("firstname"), col("lastname")).show()
     df.select(df.columns[:3]).show(3)
 
 
@@ -89,7 +91,6 @@ def nested_structcolumns(spark):
 
 
 def withColumn(spark):
-    global columns
     data = [('James', '', 'Smith', '1991-04-01', 'M', 3000),
             ('Michael', 'Rose', '', '2000-05-19', 'M', 4000),
             ('Robert', '', 'Williams', '1978-09-05', 'M', 4000),
@@ -100,7 +101,80 @@ def withColumn(spark):
     columns = ["firstname", "middlename", "lastname", "dob", "gender", "salary"]
 
     df = spark.createDataFrame(data=data, schema=columns)
+    df.printSchema()
     ddf = df.withColumn("salary", col("salary").cast("Double"))
+    ddf.show()
+    ddf.printSchema()
+    udf = df.withColumn("salary", col("salary") * 100)
+    udf.show()
 
+
+def distinct(spark):
+    global columns
+    data = [("James", "Sales", 3000), \
+            ("Michael", "Sales", 4600), \
+            ("Robert", "Sales", 4100), \
+            ("Maria", "Finance", 3000), \
+            ("James", "Sales", 3000), \
+            ("Scott", "Finance", 3300), \
+            ("Jen", "Finance", 3900), \
+            ("Jeff", "Marketing", 3000), \
+            ("Kumar", "Marketing", 2000), \
+            ("Saif", "Sales", 4100) \
+            ]
+    columns = ["employee_name", "department", "salary"]
+    df = spark.createDataFrame(data=data, schema=columns)
+    df.printSchema()
+    df.show(truncate=False)
+    distinctDF = df.distinct()
+    print("Distinct count: " + str(distinctDF.count()))
+    distinctDF.show(truncate=False)
+
+    df2 = df.dropDuplicates()
+    print("Distinct count: " + str(df2.count()))
+    df2.show(truncate=False)
+
+    dropDisDF = df.dropDuplicates(["department", "salary"])
+    print("Distinct count of department & salary : " + str(dropDisDF.count()))
+    dropDisDF.show(truncate=False)
+
+
+def ordering(spark):
+    global columns
+    simpleData = [("James", "Sales", "NY", 90000, 34, 10000), \
+                  ("Michael", "Sales", "NY", 86000, 56, 20000), \
+                  ("Robert", "Sales", "CA", 81000, 30, 23000), \
+                  ("Maria", "Finance", "CA", 90000, 24, 23000), \
+                  ("Raman", "Finance", "CA", 99000, 40, 24000), \
+                  ("Scott", "Finance", "NY", 83000, 36, 19000), \
+                  ("Jen", "Finance", "NY", 79000, 53, 15000), \
+                  ("Jeff", "Marketing", "CA", 80000, 25, 18000), \
+                  ("Kumar", "Marketing", "NY", 91000, 50, 21000) \
+                  ]
+    columns = ["employee_name", "department", "state", "salary", "age", "bonus"]
+    df = spark.createDataFrame(data=simpleData, schema=columns)
+    df.printSchema()
+    df.show(truncate=False)
+    df.sort("department","state").show(truncate=False)
+    # df.sort(col("department"),col("state")).show(truncate=False)
+    print("Before ordering")
+    df.sort(df.department.asc(), df.state.asc()).show(truncate=False)
+
+    df.orderBy("department","state").show(truncate=False)
+    print("After ordering")
+
+
+def car(spark):
+    global columns
+    data = [
+        ("Ford Torino", 140, 3449, "US"), \
+        ("Chevrolet Monte Carlo", 150, 3761, "US"), \
+        ("BMW 2002", 113, 2234, "Europe") \
+        ]
+    columns = ["car", "horsepower", "weight", "origin"]
+    df = spark.createDataFrame(data=data, schema=columns)
+    df.printSchema()
+    # df.show(truncate=False)
+    df.agg(avg("weight")).show()
 
 
