@@ -14,3 +14,13 @@ def mapDataFrame(spark):
     )
     df2=rdd2.toDF(["name","gender","new_salary"])
     df2.show()
+    #refering column names
+    rdd2=df.rdd.map(lambda x:
+         (x["firstname"] + "," + x["lastname"], x["gender"], x["salary"] * 2)
+        )
+    rdd2.collect()
+
+    rdd2=df.rdd.map(lambda x:
+       (x.firstname + "," + x.lastname, x.gender, x.salary * 2)
+        )
+    rdd2.collect()
