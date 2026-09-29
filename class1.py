@@ -3,6 +3,7 @@ from pyspark.sql import SparkSession
 
 from enforce_schema import nested_schema, enforce_schema, select, nested_structcolumns, withColumn, distinct, ordering, \
     car
+from union import union
 
 
 def num_rdd():
@@ -26,4 +27,6 @@ if __name__ == '__main__':
     #
     # distinct(spark)
     # ordering(spark)
-    car(spark)
+    # car(spark)
+    # print("after car function")
+    union(spark)
