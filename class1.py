@@ -4,6 +4,7 @@ from pyspark.sql import SparkSession
 from enforce_schema import nested_schema, enforce_schema, select, nested_structcolumns, withColumn, distinct, ordering, \
     car
 from looping import loop
+from mapwithDataFrame import mapDataFrame
 from union import union
 
 
@@ -31,4 +32,5 @@ if __name__ == '__main__':
     # car(spark)
     # print("after car function")
     # union(spark)
-    loop(spark)
+    # loop(spark)
+    mapDataFrame(spark)
