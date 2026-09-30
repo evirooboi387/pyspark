@@ -1,7 +1,13 @@
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyspark.sql import SparkSession
 
-from enforce_schema import nested_schema, enforce_schema, select, nested_structcolumns, withColumn
+from Header import readfunc
+from custom_schema import custom
+from enforce_schema import nested_schema, enforce_schema, select, nested_structcolumns, withColumn, distinct, ordering, \
+    car
+from looping import loop
+from mapwithDataFrame import mapDataFrame
+from union import union
 
 
 def num_rdd():
@@ -18,6 +24,17 @@ if __name__ == '__main__':
     # nested_schema(spark)
     # select(spark)
     # nested_structcolumns(spark)
-
-    withColumn(spark)
-
+    # print("Before withcolumn")
+    #
+    # withColumn(spark)
+    # print("After withcolumn")
+    #
+    # distinct(spark)
+    # ordering(spark)
+    # car(spark)
+    # print("after car function")
+    # union(spark)
+    # loop(spark)
+    # mapDataFrame(spark)
+    # readfunc(spark)
+    custom(spark)
