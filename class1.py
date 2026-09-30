@@ -2,6 +2,7 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyspark.sql import SparkSession
 
 from Header import readfunc
+from custom_schema import custom
 from enforce_schema import nested_schema, enforce_schema, select, nested_structcolumns, withColumn, distinct, ordering, \
     car
 from looping import loop
@@ -35,4 +36,5 @@ if __name__ == '__main__':
     # union(spark)
     # loop(spark)
     # mapDataFrame(spark)
-    readfunc(spark)
+    # readfunc(spark)
+    custom(spark)
