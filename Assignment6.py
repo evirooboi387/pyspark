@@ -65,4 +65,36 @@ result = spark.sql("""
 result.show()
 
 
+# Question5
+structureData = [
+    (("James","","Smith"),"36636","M",3100),
+    (("Michael","Rose",""),"40288","M",4300),
+    (("Robert","","Williams"),"42114","M",1400),
+    (("Maria","Anne","Jones"),"39192","F",5500),
+    (("Jen","Mary","Brown"),"","F",-1)
+  ]
+structureSchema = StructType([
+        StructField('name', StructType([
+             StructField('firstname', StringType(), True),
+             StructField('middlename', StringType(), True),
+             StructField('lastname', StringType(), True)
+             ])),
+         StructField('id', StringType(), True),
+         StructField('gender', StringType(), True),
+         StructField('salary', IntegerType(), True)
+         ])
+df = spark.createDataFrame(structureData, structureSchema)
 
+df.show()
+
+# Register DataFrame as SQL view
+df.createOrReplaceTempView("Users")
+
+# SQL query
+result = spark.sql("""
+    SELECT name.firstname
+    FROM Users
+    WHERE name.lastname = 'Rose'
+""")
+
+result.show()
