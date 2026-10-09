@@ -8,6 +8,7 @@ from enforce_schema import nested_schema, enforce_schema, select, nested_structc
 from looping import loop
 from mapwithDataFrame import mapDataFrame
 from union import union
+from writeDataFrame import rwparquet
 
 
 def num_rdd():
@@ -37,4 +38,6 @@ if __name__ == '__main__':
     # loop(spark)
     # mapDataFrame(spark)
     # readfunc(spark)
-    custom(spark)
+    # custom(spark)
+
+    rwparquet(spark)
