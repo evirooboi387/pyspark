@@ -22,3 +22,11 @@ schema = StructType([
 df_with_schema = spark.createDataFrame(data, schema=schema)
 
 df.show()
+# Read from a CSV file
+df_csv = spark.read.csv("path/to/sample.csv", header=True, inferSchema=True)
+
+# Write DataFrame to a Parquet file
+df_csv.write.mode("overwrite").parquet("path/to/output_data.parquet")
+
+# Read from the Parquet file
+df_parquet = spark.read.parquet("path/to/output_data.parquet")
