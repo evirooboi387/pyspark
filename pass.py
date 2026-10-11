@@ -64,3 +64,11 @@ df_grouped = df.groupBy("Country").agg(
 
 df_grouped.show()
 
+# Create a second lookup DataFrame
+dept_data = [("USA", "North America"), ("Canada", "North America"), ("UK", "Europe")]
+dept_columns = ["Country", "Continent"]
+df_dept = spark.createDataFrame(dept_data, dept_columns)
+
+# Join datasets on the "Country" key
+df_joined = df.join(df_dept, on="Country", how="inner")
+df_joined.show()
