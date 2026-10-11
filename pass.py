@@ -72,3 +72,7 @@ df_dept = spark.createDataFrame(dept_data, dept_columns)
 # Join datasets on the "Country" key
 df_joined = df.join(df_dept, on="Country", how="inner")
 df_joined.show()
+# Syntax: df.sample(withReplacement, fraction, seed)
+# Extract roughly 50% of the data without replacement
+df_sampled = df.sample(withReplacement=False, fraction=0.5, seed=42)
+df_sampled.show()
