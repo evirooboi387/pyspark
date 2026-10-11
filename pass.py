@@ -1,5 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+from pyspark.sql.functions import avg, count, sum, col, when, lit
+
 
 # Initialize SparkSession
 spark = SparkSession.builder \
@@ -31,7 +33,7 @@ df_csv.write.mode("overwrite").parquet("path/to/output_data.parquet")
 # Read from the Parquet file
 df_parquet = spark.read.parquet("path/to/output_data.parquet")
 
-from pyspark.sql.functions import col, when, lit
+
 
 # 1. Select specific columns
 df_selected = df.select("Name", "Age")
@@ -51,4 +53,14 @@ df_lifecycle = df.withColumn(
 )
 
 df_lifecycle.show()
+
+
+
+# Group by Country and calculate average age and volume count
+df_grouped = df.groupBy("Country").agg(
+    avg("Age").alias("Average_Age"),
+    count("Name").alias("Total_People")
+)
+
+df_grouped.show()
 
