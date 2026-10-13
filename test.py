@@ -133,3 +133,13 @@ print("Peak memory:",
 
 print("Serialized size:",
       result_15_columns["serialized_size_MB"], "MB")
+
+
+n = 153
+p = len(str(n))
+s = sum(map(lambda d: int(d) ** p, str(n)))
+
+if s == n:
+    print("Armstrong Number")
+else:
+    print("Not an Armstrong Number")
