@@ -143,3 +143,7 @@ if s == n:
     print("Armstrong Number")
 else:
     print("Not an Armstrong Number")
+
+
+c = 'g'
+print(ord(c))
