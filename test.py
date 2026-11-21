@@ -153,3 +153,14 @@ df = spark.read.format("jdbc").option("url", "jdbc:redshift://default-workgroup.
 df = spark.read.format("jdbc").option("url", "jdbc:redshift://default-workgroup.492715478808.us-east-1.redshift-serverless.amazonaws.com:5439/dev").option("query", "select * from dev.test.listing limit 2").option("driver","com.amazon.redshift.jdbc42.Driver").option("user", "admin").option("password", "Admin1234").load()
 
 df.write.format("jdbc").option("url", "jdbc:redshift://default-workgroup.492715478808.us-east-1.redshift-serverless.amazonaws.com:5439/dev").option("dbtable", "dev.test.employee").option("driver","com.amazon.redshift.jdbc42.Driver").option("user", "admin").option("password", "Admin1234").mode("overwrite").save()
+
+pyspark --packages org.apache.hadoop:hadoop-aws:3.3.4
+hadoop_conf = spark._jsc.hadoopConfiguration()
+hadoop_conf.set("fs.s3a.access.key", "YOUR_ACCESS_KEY")
+hadoop_conf.set("fs.s3a.secret.key", "YOUR_SECRET_KEY")
+hadoop_conf.set("fs.s3a.endpoint", "s3.amazonaws.com")
+
+df = spark.read.csv("s3a://your-bucket-name/path/to/file.csv", header=True, inferSchema=True)
+df.show()
+
+
