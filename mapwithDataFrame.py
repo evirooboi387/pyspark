@@ -20,7 +20,3 @@ def mapDataFrame(spark):
         )
     rdd2.collect()
 
-    rdd2=df.rdd.map(lambda x:
-       (x.firstname + "," + x.lastname, x.gender, x.salary * 2)
-        )
-    rdd2.collect()
